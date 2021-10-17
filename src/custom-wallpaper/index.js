@@ -8,7 +8,7 @@ const getImages = async (dir) => {
   return new Promise((resolve) => (fs.readdir(dir, (_err, files) => resolve(files))))
 }
 
-const changeImage = (imgDir) => {
+const changeImage = (exec, imgDir) => {
   const script = `osascript -e "tell application \\"System Events\\" to tell every desktop to set picture to \\"${imgDir}\\" as POSIX file"`
   exec(script, (err) => {
     if (err) {
@@ -20,7 +20,7 @@ const changeImage = (imgDir) => {
 const executeChangeImage = async (list, counter) => {
   const next = list[counter % list.length]
   try {
-    changeImage(next)
+    changeImage(exec, next)
     return counter
   } catch (err) {
     console.error(err)
@@ -59,5 +59,6 @@ module.exports = {
   executeChangeImage,
   executeDynamacWallpaper,
   getImages,
+  changeImage,
   DEFAULT_WALLPAPER
 }
